@@ -26,8 +26,19 @@ Number and name of feature: Setup
 
 Estimate of time needed to complete: 1 hour
 
-Start time: _____
+Start time: 9:15
 
-Finish time: _____
+Finish time: 10:00
 
-Actual time needed to complete: _____
+Actual time needed to complete: 45min
+
+
+Number and name of feature: Books Api
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 10:05
+
+Finish time: 
+
+Actual time needed to complete: 45min

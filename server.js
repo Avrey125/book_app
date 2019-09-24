@@ -15,9 +15,10 @@ app.use(express.static('./public'));
 app.use(express.urlencoded({extended:true}));
 app.set('view engine', 'ejs');
 
-app.get('/hello',(request, response) => {
+app.get('/',(request, response) => {
     response.render('pages/index');
 })
+
 
 
 
