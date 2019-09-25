@@ -49,7 +49,21 @@ Estimate of time needed to complete: 1 hour
 
 Start time: 10:20
 
+Finish time: 9:40 the next day
+
+Actual time needed to complete: 3 hours
+
+##lab 12
+
+Number and name of feature: Database
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 9:45
+
 Finish time: 
 
 Actual time needed to complete: 
+
+
 
