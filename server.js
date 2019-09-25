@@ -27,12 +27,11 @@ function newSearch(request, response) {
   console.log(request.body);
   response.render('pages/index')
 }
-
 function searchForBooks(request, response) {
   console.log(request.body.search);
   const searchName = request.body.search[0];
   const searchingFor = request.body.search[1];
-
+  
   let url = `https://www.googleapis.com/books/v1/volumes?q=`;
 
   if(searchingFor === 'title'){
@@ -43,22 +42,26 @@ function searchForBooks(request, response) {
     console.log('in second if');
     url = url+`inauthor:${searchName}`;
   }
-
+  
   superagent.get(url)
-    .then(superagentResults => {
+  .then(superagentResults => {
       const bookResults = (superagentResults.body.items.slice(0,10).map(book => {
         return new Book(book);
       }))
 
-      response.send(bookResults);
+      response.render('pages/searches/show', {bookArray: bookResults});
       console.log(superagentResults.body.items);
     })
     
-}
-
-
-function Book(info) {
-  this.title = info.volumeInfo.title || 'no title available';
-}
+  }
+  
+  
+  function Book(info) {
+    this.image = info.volumeInfo.imageLinks.thumbnail;
+    this.title = info.volumeInfo.title || 'no title available';
+    this.authors = info.volumeInfo.authors || 'no author available';
+    this.description = info.volumeInfo.description;
+  }
+  
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

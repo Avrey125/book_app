@@ -2,11 +2,14 @@
 <html>
     <head></head>
     <body>
-        <h1>Book LIst</h1>
+        <h1>Book List</h1>
         <p><a href="/">Home</a></p>
         <ul>
-            <%= bookResults.forEach(item => { %>
-                <li><%= item.title %></li>
+            <% bookArray.forEach(book => { %>
+                <li><image src=<%= book.image %></li>
+                <li><%= book.title %></li>
+                <li><%= book.authors %></li>
+                <li><%= book.description %></li>
             <% }) %>
         </ul>
     </body>
