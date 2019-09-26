@@ -1,17 +1,20 @@
 'use strict';
 
+// dependencies
 const express = require('express');
-require('dotenv').config();
-
+const superagent = require('superagent');
 const pg = require('pg');
 const cors = require('cors');
-const superagent = require('superagent');
+// enviornment variable
+require('dotenv').config();
 
+//applications
 const app = express();
-
 const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 
+//express middleware
 app.use(express.static('./public'));
 app.use(express.urlencoded({extended:true}));
 
@@ -23,58 +26,47 @@ client.on('error', err => console.error(err));
 app.set('view engine', 'ejs');
 
 
-
-// app.get('/',(request, response) => {
-//   response.render('pages/index');
-// })
-
-app.get('/', homePage);
-app.get('')
-
+// routes
+app.get('/', getBooks);
+app.get('/pages/searches/new', (request, response) => {
+  response.render('./pages/searches/new');
+});
 
 app.post('/searches', searchForBooks);
-// app.post('/searches/show', searchForBooks)
+app.get('/books/:book_id', getOneBook)
+app.get('pages/add/:book_index', saveOneBook)
 
-function homePage(request, response) {
-  response.render('pages/index');
+app.use('*', (request, response) => response.render('pages/error'));
+
+
+function Book(info, i) {
+  const placeHolderImage = 'https://i.imgur.com/J5LVHEL.jpg';
+  this.title = info.volumeInfo.title || 'no title available';
+  this.authors = info.volumeInfo.authors || 'no author available';
+  this.description = info.volumeInfo.description;
+  this.image = info.volumeInfo.imageLinks.thumbnail;
+  this.isbn = info.volumeInfo.industryIdentifiers.identifier;
+  this.tempId = i;
 }
 
-function getBooks(request, response){
-  let sql = 'SELECT * from books;';
+let bookArr = [];
 
-  return client.query(sql)
-  .then(results => response.render('index', {bookArray: bookResults.rows}))
-  .catch(handleError);
+function saveOneBook(request, response) {
+  const bookIndex = request.params.book_index;
+  let sql = 'INSERT INTO books (title, author, description, image) VALUES ($1, $2, $3, $4)'
+  let values = [bookArr[bookIndex].title, bookArr[bookIndex].authors, bookArr[bookIndex].image, bookArr[bookIndex].description]
+  client.query(sql, values)
+
 }
 
-function getOneBook(render, response) {
-  console.log(request.params.books_id)
-
-  let sql = 'SELECT * FROM books WHERE id=$1;';
-  let values = [request.params.books_id];
-
-  return client.query(sql,values)
-  .then(result => {
-    return response.render('./pages/searches/index', {book: bookResults.rows[0]});
-  })
-  .catch(err => handleError(err, response));
-}
-
-
-
-
-
-// function newSearch(request, response) {
-//   console.log(request.body);
-//   response.render('pages/index')
-// }
+//========================================================================
 function searchForBooks(request, response) {
   console.log(request.body.search);
   const searchName = request.body.search[0];
   const searchingFor = request.body.search[1];
   
   let url = `https://www.googleapis.com/books/v1/volumes?q=`;
-
+  
   if(searchingFor === 'title'){
     console.log('in first if');
     url = url+`intitle:${searchName}`;
@@ -84,30 +76,42 @@ function searchForBooks(request, response) {
     url = url+`inauthor:${searchName}`;
   }
   
-  superagent.get(url)
-  .then(superagentResults => {
-      const bookResults = (superagentResults.body.items.slice(0,10).map(book => {
-        return new Book(book);
-      }))
-
-      response.render('./pages/searches/show', {bookArray: bookResults});
-      console.log(superagentResults.body.items);
+  superagent
+  .get(url)
+  .then(result => {
+    let i = 0;
+    return result.body.items.map(bookObj => {
+      i++;
+     return new Book(bookObj)
+    });
+  })
+    .then(result => {
+      response.render('./pages/searches/show', {bookArray: result})
     })
-    
+    .catch(error => handleError(error, response));
   }
-  
-  
-  function Book(info) {
-    this.image = info.volumeInfo.imageLinks.thumbnail;
-    this.title = info.volumeInfo.title || 'no title available';
-    this.authors = info.volumeInfo.authors || 'no author available';
-    this.description = info.volumeInfo.description;
-    this.isbn = info.volumeInfo.industryIdentifiers.type;
-  }
-  
 
+  //=======================================================================================
   function handleError(error, response){
     response.render('pages/error', {error: 'oops'});
   }
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+  //==========================================================================================
+  function getBooks(request, response){
+    let sql = 'SELECT * from books;';
+   client.query(sql)
+    .then(sqlResults => {
+      response.render('pages/index', {bookArray: sqlResults.rows})
+    })
+    .catch(error => handleError(error, response));
+  }
+  //============================================================================================
+  function getOneBook(request, response) {
+    const bookId = request.params.books_id;
+    let sql = 'SELECT * FROM books WHERE id=$1;';
+    let values = bookId;
+    
+     client.query(sql,values)
+      .then(result => response.render('../pages/books/detail', {book: result.rows[0]}))
+      .catch(error => handleError(error, response));
+  }

@@ -10,7 +10,7 @@
                 <li><%= book.title %></li>
                 <li><%= book.authors %></li>
                 <li><%= book.description %></li>
-                <li><%= book.isbn %></li>
+                <a href="pages/books/<%= book.isbn %>">Details</a>
             <% }) %>
         </ul>
     </body>

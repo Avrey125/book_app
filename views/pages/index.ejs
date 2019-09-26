@@ -4,15 +4,13 @@
     <body>
         <h1>Book List</h1>
         <p><a href="/">Home</a></p>
-        <p><a href="/"></a></p>
-
+        <p><a href="pages/searches/new">New Book</a></p>
         <ul>
             <% bookArray.forEach(book => { %>
                 <li><image src=<%= book.image %></li>
                 <li><%= book.title %></li>
                 <li><%= book.authors %></li>
                 <li><%= book.description %></li>
-                <li><%= book.isbn %></li>
             <% }) %>
         </ul>
     </body>

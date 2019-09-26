@@ -7,9 +7,5 @@ CREATE TABLE books (
     description TEXT
 );
 
-INSERT INTO books (title, authors, isbn, image, description)
-VALUES('book', 'david', '1234', 'bookUrl', 'this book cool');
-
-
-
-
+INSERT INTO books (title, authors, image, description)
+VALUES('book', 'david', 'bookUrl', 'this book cool');
