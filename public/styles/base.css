@@ -1,3 +1,8 @@
 body{
-    background-color:red
+    border:1px solid red;
+    background-color:rgb(73,181,212);
+    width:960px;
+    text-align:center;
+    margin: 0 auto;
+
 };

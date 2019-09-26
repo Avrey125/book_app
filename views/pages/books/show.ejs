@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h1>Book List</h1>
+        <p><a href="/">Home</a></p>
+        <a href="/">List</a>
+        <ul data-id="<%= book.id %>">
+            <li><image src=<%= book.image %></li>
+            <li><%= book.title %></li>
+            <li><%= book.authors %></li>
+            <li><%= book.description %></li>
+            <li>
+                <%- include('details') %>
+            </li>
+        </ul>
+    </body>
+
+</html>
