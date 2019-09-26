@@ -45,7 +45,7 @@ function Book(info, i) {
   this.authors = info.volumeInfo.authors || 'no author available';
   this.description = info.volumeInfo.description;
   this.image = info.volumeInfo.imageLinks.thumbnail;
-  this.isbn = info.volumeInfo.industryIdentifiers.identifier;
+  // this.isbn = info.volumeInfo.industryIdentifiers.identifier;
   this.tempId = i;
 }
 

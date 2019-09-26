@@ -1,0 +1,26 @@
+#main{
+    background-color:	rgb(73,181,212);
+    width: 500px;
+    margin: 10px auto;
+    font-size: 50px;
+    box-shadow: 1em 0 1em rgb(140, 211, 252);
+    border: 10px groove rgb(88,117,167);
+    border-radius: 25px;
+}
+#top{
+    border-radius: 25px;
+    width: 700px;
+    font-size:20px;
+    margin: 20px auto;
+    background-color:rgb(178,225,253);
+    font-family:Indie Flower;
+    font-weight:bold;
+    padding:3px;
+    box-shadow: 1em 0 .4em rgb(178,225,253);
+    border: 10px groove rgb(88,117,167);
+
+}
+
+span{
+    font-size:50px;
+}

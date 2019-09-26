@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="../styles/reset.css" />
+        <link rel="stylesheet" href="../styles/base.css" />
+        <link rel="stylesheet" href="../styles/layout.css" />
+        <link rel="stylesheet" href="../styles/icons.css" />
+        <link rel="stylesheet" href="../styles/modules.css" />
+        <link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Display%7CIndie+Flower&display=swap" rel="stylesheet">
+    </head>
     <body>
-        <h1>Book List</h1>
-        <p><a href="/">Home</a></p>
-        <p><a href="pages/searches/new">New Book</a></p>
-        <ul>
-            <% bookArray.forEach(book => { %>
-                <li><image src=<%= book.image %></li>
-                <li><%= book.title %></li>
-                <li><%= book.authors %></li>
-                <li><%= book.description %></li>
-            <% }) %>
-        </ul>
+        <section>
+            <div id = "top">
+                <span>Book List</span>
+                <p><a href="/">Home</a></p>
+                <p><a href="pages/searches/new">New Book</a></p>
+            </div>
+            <ul id = "main">
+                <% bookArray.forEach(book => { %>
+                    <li><image src=<%= book.image %></li>
+                    <li><%= book.title %></li>
+                    <li><%= book.authors %></li>
+                    <li><%= book.description %></li>
+                <% }) %>
+            </ul>
+        </section>
     </body>
 
 </html>
