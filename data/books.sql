@@ -8,4 +8,4 @@ CREATE TABLE books (
 );
 
 INSERT INTO books (title, authors, image, description)
-VALUES('book', 'david', 'bookUrl', 'this book cool');
+VALUES('book', 'david', 'https://i.imgur.com/J5LVHEL.jpg', 'this book cool');

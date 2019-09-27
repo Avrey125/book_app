@@ -8,15 +8,18 @@
         <link rel="stylesheet" href="../styles/modules.css" />
         <link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Display%7CIndie+Flower&display=swap" rel="stylesheet">
     </head>
-    <body>
+    <body id = "indexBody">
         <section>
             <div id = "top">
                 <span>Book List</span>
-                <p><a href="/">Home</a></p>
-                <p><a href="pages/searches/new">New Book</a></p>
+                <section id = "nav">
+                    <p><a href="/">Home</a></p>
+                    <p><a href="pages/searches/new">New Book</a></p>
+                </section>
             </div>
             <ul id = "main">
                 <% bookArray.forEach(book => { %>
+                    <img src = "https://i.imgur.com/J5LVHEL.jpg" />
                     <li><image src=<%= book.image %></li>
                     <li><%= book.title %></li>
                     <li><%= book.authors %></li>
