@@ -1,8 +1,17 @@
-body{
-    border:1px solid red;
-    background-color:rgb(73,181,212);
-    width:960px;
+#indexBody{
     text-align:center;
     margin: 0 auto;
 
 };
+#newBody{
+    background-color:black;
+    text-align:center;
+    margin: 0 auto;
+    border:1px solid red;
+    text-align:center;
+}
+body{
+    background: black;
+    width:96opx;
+    text-align:center;
+}

@@ -2,23 +2,29 @@
   <html>
       <head>
         <title>book_app</title>
+        <link rel="stylesheet" href="/styles/reset.css" />
+        <link rel="stylesheet" href="/styles/base.css" />
+        <link rel="stylesheet" href="/styles/layout.css" />
+        <link rel="stylesheet" href="/styles/icons.css" />
+        <link rel="stylesheet" href="/styles/modules.css" />
+        <link href="https://fonts.googleapis.com/css?family=Big+Shoulders+Display%7CIndie+Flower&display=swap" rel="stylesheet">
       </head>
-      <body>
-        <main>
-          <h1>The Book App</h1>
+      <body id = "newBody">
+        <h1 id = "newTitle">The Book App</h1>
+        <main id = "newMain">
 
           <form action='/searches' method='post'>
               <input type="text" name="search" placeholder="Enter a Title or Author" required>
             <fieldset>
               <label for="title">
-                <span>Title</span>
+                <span id = "searchTitle">Title</span>
                 <input type="radio" name="search" value="title" required>
               </label>
             </fieldset>
 
             <fieldset>
               <label for="author">
-                <span>Author</span>
+                <span id = "searchAuthor">Author</span>
                 <input type="radio" name="search" value="author" required>
               </label>
             </fieldset>
