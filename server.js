@@ -33,8 +33,10 @@ app.get('/pages/searches/new', (request, response) => {
 });
 
 app.post('/searches', searchForBooks);
-app.get('/books/:book_id', getOneBook)
-app.get('pages/add/:book_index', saveOneBook)
+app.get('/books/:book.book_index', getOneBook);
+// app.get('pages/add/:book_index', saveOneBook)
+app.get('/save/:isbn', saveOneBook );
+
 
 app.use('*', (request, response) => response.render('pages/error'));
 
@@ -45,18 +47,36 @@ function Book(info, i) {
   this.authors = info.volumeInfo.authors || 'no author available';
   this.description = info.volumeInfo.description;
   this.image = info.volumeInfo.imageLinks.thumbnail;
-  // this.isbn = info.volumeInfo.industryIdentifiers.identifier;
+  this.isbn = info.volumeInfo.industryIdentifiers[0].identifier;
   this.tempId = i;
 }
 
-let bookArr = [];
 
 function saveOneBook(request, response) {
-  const bookIndex = request.params.book_index;
-  let sql = 'INSERT INTO books (title, author, description, image) VALUES ($1, $2, $3, $4)'
-  let values = [bookArr[bookIndex].title, bookArr[bookIndex].authors, bookArr[bookIndex].image, bookArr[bookIndex].description]
-  client.query(sql, values)
+  const bookIsbn = request.params.isbn;
+  console.log('im in the save oneBook function');
+  console.log(request.body);
+  callSaveBook(bookIsbn);
+}
+//========================================================================
+function callSaveBook(isbn) {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${isbn}`
+  
+  
+  superagent.get(url)
+  .then(result => {
+    console.log(result.body[0]);
+    // return new Book()
 
+    let sql = 'INSERT INTO books (title, author, description, image, isbn) VALUES ($1, $2, $3, $4, $5)'
+    let values = (result.body.title, result.body.authors, result.body.image, result.body.description, result.body.isbn);
+    client.query(sql, values)
+    
+  })
+  // .then(result => {
+  //   response.render('./pages/books/detail', result)
+  // })
+  .catch(error => handleError(error, response));
 }
 
 //========================================================================
@@ -79,14 +99,15 @@ function searchForBooks(request, response) {
   superagent
   .get(url)
   .then(result => {
-    let i = 0;
+    console.log('made it', result.body.items);
     return result.body.items.map(bookObj => {
-      i++;
      return new Book(bookObj)
     });
   })
-    .then(result => {
+  .then(result => {
+    console.log(result, 'stuff');
       response.render('./pages/searches/show', {bookArray: result})
+      
     })
     .catch(error => handleError(error, response));
   }
@@ -107,7 +128,7 @@ function searchForBooks(request, response) {
   }
   //============================================================================================
   function getOneBook(request, response) {
-    const bookId = request.params.books_id;
+    const bookId = request.params.book_index;
     let sql = 'SELECT * FROM books WHERE id=$1;';
     let values = bookId;
     
